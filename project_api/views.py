@@ -67,8 +67,8 @@ def send_message_to_telegram_bot(token, chat_id, message):
     response = requests.post(base_url, json=params)
     return response.json()
 
-class MessageView(generics.ListCreateAPIView):
-    queryset = Message.objects.all()
+class MessageView(generics.CreateAPIView):
+    # queryset = Message.objects.all()
     serializer_class = MessageSerializer
 
     def perform_create(self, serializer):
@@ -104,6 +104,8 @@ class UserTokenCreateView(generics.ListCreateAPIView):
         return Response({"telegram_token": token}, status=status.HTTP_201_CREATED)
 
 class AddUserTelegramIDView(generics.UpdateAPIView):
+    permission_classes = (permissions.AllowAny,)
+
     queryset = UserToken.objects.all()
     serializer_class = UserTelegramIDSerializer
 
