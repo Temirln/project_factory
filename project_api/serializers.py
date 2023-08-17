@@ -11,15 +11,17 @@ class UserTokenSerializer(serializers.ModelSerializer):
 
     # def create(self,validated_data):
 
+
 class UserTelegramIDSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserToken
-        fields = ['telegram_id','telegram_token']
+        fields = ["telegram_id", "telegram_token"]
 
     def update(self, instance, validated_data):
         instance.telegram_id = validated_data.get("telegram_id", instance.telegram_id)
         instance.save()
         return instance
+
 
 class SignUpSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=60, min_length=8, write_only=True)
@@ -46,8 +48,6 @@ class SignUpSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
-
-
 
 
 class MessageSerializer(serializers.ModelSerializer):

@@ -10,7 +10,12 @@ from django.contrib.auth import login, authenticate
 
 # from rest_framework.permissions /import AllowAny
 
-from .serializers import SignUpSerializer, MessageSerializer, UserTokenSerializer,UserTelegramIDSerializer
+from .serializers import (
+    SignUpSerializer,
+    MessageSerializer,
+    UserTokenSerializer,
+    UserTelegramIDSerializer,
+)
 from rest_framework import generics
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -56,7 +61,9 @@ class LoginView(views.APIView):
                 }
             )
 
+
 import requests
+
 
 def send_message_to_telegram_bot(token, chat_id, message):
     base_url = f"https://api.telegram.org/bot{token}/sendMessage"
@@ -66,6 +73,7 @@ def send_message_to_telegram_bot(token, chat_id, message):
     }
     response = requests.post(base_url, json=params)
     return response.json()
+
 
 class MessageView(generics.CreateAPIView):
     # queryset = Message.objects.all()
@@ -78,7 +86,11 @@ class MessageView(generics.CreateAPIView):
         user_token = UserToken.objects.get(user=self.request.user)
         if user_token.telegram_token and user_token.telegram_id:
             message_content = f"{self.request.user.username}, Я получил от тебя сообщение:\n{message.content}"
-            send_message_to_telegram_bot("1421298525:AAHf38uOB6awtzJd5jRAAOxX3SFN6wF1Pp0", user_token.telegram_id, message_content)
+            send_message_to_telegram_bot(
+                "1421298525:AAHf38uOB6awtzJd5jRAAOxX3SFN6wF1Pp0",
+                user_token.telegram_id,
+                message_content,
+            )
 
         return message
 
@@ -103,6 +115,7 @@ class UserTokenCreateView(generics.ListCreateAPIView):
 
         return Response({"telegram_token": token}, status=status.HTTP_201_CREATED)
 
+
 class AddUserTelegramIDView(generics.UpdateAPIView):
     permission_classes = (permissions.AllowAny,)
 
@@ -111,4 +124,4 @@ class AddUserTelegramIDView(generics.UpdateAPIView):
 
     def get_object(self):
         # Return the UserToken instance for the current user
-        return self.queryset.get(telegram_token=self.request.data.get('telegram_token'))
+        return self.queryset.get(telegram_token=self.request.data.get("telegram_token"))
