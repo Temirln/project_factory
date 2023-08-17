@@ -16,6 +16,7 @@ DATABASES = {
 
 ALLOWED_HOSTS = [".vercel.app"]
 
+WSGI_APPLICATION = "project_factory.wsgi_prod.app"
 
 LOGGING = {
     'version': 1,

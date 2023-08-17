@@ -11,6 +11,8 @@ DATABASES = {
 
 ALLOWED_HOSTS = ["*"]
 
+WSGI_APPLICATION = "project_factory.wsgi.application"
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
