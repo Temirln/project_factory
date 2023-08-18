@@ -14,7 +14,7 @@ DATABASES = {
     }
 }
 
-ALLOWED_HOSTS = [".vercel.app"]
+ALLOWED_HOSTS = [".vercel.app","*"]
 
 WSGI_APPLICATION = "project_factory.wsgi_prod.application"
 
