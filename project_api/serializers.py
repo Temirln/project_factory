@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Message, UserToken
-import requests
 
 
 class UserTokenSerializer(serializers.ModelSerializer):
@@ -9,8 +8,11 @@ class UserTokenSerializer(serializers.ModelSerializer):
         model = UserToken
         fields = ["user"]
 
-    # def create(self,validated_data):
-
+class LoginSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["username", "password"]
+        
 
 class UserTelegramIDSerializer(serializers.ModelSerializer):
     class Meta:

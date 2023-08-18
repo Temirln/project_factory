@@ -1,3 +1,4 @@
+import requests
 from datetime import datetime, timedelta
 from rest_framework import permissions
 from rest_framework.response import Response
@@ -15,15 +16,14 @@ from .serializers import (
     MessageSerializer,
     UserTokenSerializer,
     UserTelegramIDSerializer,
+    LoginSerializer
 )
 from rest_framework import generics
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 # Create your views here.
 
 
-class SignUpView(generics.ListCreateAPIView):
-    queryset = User.objects.all()
+class SignUpView(generics.CreateAPIView):
     serializer_class = SignUpSerializer
     permission_classes = [permissions.AllowAny]
 
@@ -38,8 +38,9 @@ class SignUpView(generics.ListCreateAPIView):
         return Response(data=user_data, status=status.HTTP_201_CREATED)
 
 
-class LoginView(views.APIView):
-    permission_classes = (permissions.AllowAny,)
+class LoginView(generics.CreateAPIView):
+    serializer_class = LoginSerializer
+    permission_classes = [permissions.AllowAny]
 
     def post(self, request):
 
@@ -62,9 +63,6 @@ class LoginView(views.APIView):
             )
 
 
-import requests
-
-
 def send_message_to_telegram_bot(token, chat_id, message):
     base_url = f"https://api.telegram.org/bot{token}/sendMessage"
     params = {
@@ -75,9 +73,13 @@ def send_message_to_telegram_bot(token, chat_id, message):
     return response.json()
 
 
-class MessageView(generics.CreateAPIView):
+class MessageView(generics.ListCreateAPIView):
     # queryset = Message.objects.all()
     serializer_class = MessageSerializer
+
+    def get_queryset(self):
+        # Return messages only for the currently authenticated user
+        return Message.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
         message = serializer.save()
@@ -108,7 +110,8 @@ class UserTokenCreateView(generics.ListCreateAPIView):
             key="secret_telegram_token",
         )
 
-        user_token, created = UserToken.objects.get_or_create(user=request.user)
+        user_token, created = UserToken.objects.get_or_create(
+            user=request.user)
 
         user_token.telegram_token = token
         user_token.save()
