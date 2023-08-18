@@ -67,14 +67,6 @@ TEMPLATES = [
 ]
 
 
-
-
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-
-
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -110,8 +102,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
-# STATICFILES_DIR = os.path.join(BASE_DIR, "static")
-# STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles_build", "static")
 
 STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
@@ -119,64 +109,3 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-
-DATABASES = {
-    # local database
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR/'db.sqlite3',
-    # }
-    # prod database
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "railway",
-        "USER": "postgres",
-        "PASSWORD": "EAKgKuDpCwu7HbHgKhZW",
-        "HOST": "containers-us-west-203.railway.app",
-        "PORT": "6663",
-    }
-}
-
-ALLOWED_HOSTS = ["*"]
-
-WSGI_APPLICATION = "project_factory.wsgi.application"
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'info_file': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': 'local_logs/info.log'
-        },
-        'debug_file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'local_logs/debug.log'
-        },
-        'error_file': {
-            'level': 'ERROR',
-            'class': 'logging.FileHandler',
-            'filename': 'local_logs/error.log'
-        }
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['debug_file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        '': {
-            'handlers': ['error_file'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-        'project_api': {
-            'handlers': ['info_file'],
-            'level': 'INFO',
-            'propagate': True,
-        }
-    },
-}
