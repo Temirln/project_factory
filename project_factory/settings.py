@@ -149,17 +149,17 @@ LOGGING = {
         'info_file': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': 'local_logs/info.log'
+            'filename': 'prod_logs/info.log'
         },
         'debug_file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': 'local_logs/debug.log'
+            'filename': 'prod_logs/debug.log'
         },
         'error_file': {
             'level': 'ERROR',
             'class': 'logging.FileHandler',
-            'filename': 'local_logs/error.log'
+            'filename': 'prod_logs/error.log'
         }
     },
     'loggers': {
