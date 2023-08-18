@@ -6,7 +6,7 @@ from .models import Message, UserToken
 class UserTokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserToken
-        fields = ["user"]
+        fields = "__all__"
 
 class LoginSerializer(serializers.ModelSerializer):
     class Meta:

@@ -98,8 +98,12 @@ class MessageView(generics.ListCreateAPIView):
 
 
 class UserTokenCreateView(generics.ListCreateAPIView):
-    queryset = UserToken.objects.all()
+    
     serializer_class = UserTokenSerializer
+
+    def get_queryset(self):
+        # Return messages only for the currently authenticated user
+        return UserToken.objects.filter(user=self.request.user)
 
     def post(self, request):
         token = jwt.encode(
