@@ -1,16 +1,16 @@
 from .base import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "railway",
         "USER": "postgres",
-        "PASSWORD": "EiFhOaJVxnHwpBY7ZtND",
-        "HOST": "containers-us-west-191.railway.app",
-        "PORT": "6470",
+        "PASSWORD": "EAKgKuDpCwu7HbHgKhZW",
+        "HOST": "containers-us-west-203.railway.app",
+        "PORT": "6663",
     }
 }
 
