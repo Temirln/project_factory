@@ -7,6 +7,7 @@ class UserTokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserToken
         fields = "__all__"
+        read_only_fields = ['telegram_id', 'telegram_token']
 
 class LoginSerializer(serializers.ModelSerializer):
     class Meta:
