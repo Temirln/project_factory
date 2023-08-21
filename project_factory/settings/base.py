@@ -109,3 +109,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+TELEGRAM_TOKEN = "1421298525:AAHf38uOB6awtzJd5jRAAOxX3SFN6wF1Pp0"

@@ -10,6 +10,7 @@ import jwt
 from dotenv import load_dotenv
 import os
 from django.contrib.auth import login, authenticate
+from project_factory.settings.base import TELEGRAM_TOKEN
 
 # from rest_framework.permissions /import AllowAny
 
@@ -92,7 +93,7 @@ class MessageView(generics.ListCreateAPIView):
         if user_token.telegram_token and user_token.telegram_id:
             message_content = f"{self.request.user.username}, Я получил от тебя сообщение:\n{message.content}"
             send_message_to_telegram_bot(
-                os.getenv("TOKEN"),
+                TELEGRAM_TOKEN,
                 user_token.telegram_id,
                 message_content,
             )
