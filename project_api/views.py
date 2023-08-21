@@ -7,6 +7,8 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from .models import Message, UserToken
 import jwt
+from dotenv import load_dotenv
+import os
 from django.contrib.auth import login, authenticate
 
 # from rest_framework.permissions /import AllowAny
@@ -82,6 +84,7 @@ class MessageView(generics.ListCreateAPIView):
         return Message.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
+        load_dotenv()
         message = serializer.save()
 
         # Send the message to Telegram bot
@@ -89,7 +92,7 @@ class MessageView(generics.ListCreateAPIView):
         if user_token.telegram_token and user_token.telegram_id:
             message_content = f"{self.request.user.username}, Я получил от тебя сообщение:\n{message.content}"
             send_message_to_telegram_bot(
-                "1421298525:AAHf38uOB6awtzJd5jRAAOxX3SFN6wF1Pp0",
+                os.getenv("TOKEN"),
                 user_token.telegram_id,
                 message_content,
             )
@@ -108,7 +111,7 @@ class UserTokenCreateView(generics.ListCreateAPIView):
     def post(self, request):
         token = jwt.encode(
             {
-                "user": request.data.get("user"),
+                "user": self.request.user,
                 "exp": datetime.utcnow() + timedelta(minutes=30),
             },
             key="secret_telegram_token",
