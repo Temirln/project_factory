@@ -112,7 +112,7 @@ class UserTokenCreateView(generics.ListCreateAPIView):
     def post(self, request):
         token = jwt.encode(
             {
-                "user": self.request.user,
+                "user": str(self.request.user),
                 "exp": datetime.utcnow() + timedelta(minutes=30),
             },
             key="secret_telegram_token",
